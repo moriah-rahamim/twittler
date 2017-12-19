@@ -162,6 +162,35 @@ a.refresh-tweets.hidden {
 
 /*
   ========================================
+  Create new tweet
+  ========================================
+*/
+.post-tweet,
+.post-tweet:hover {
+  background: #e8f5fc;
+  padding: 10px 12px;
+}
+input[type=text] {
+  width: 95%;
+  height: 36px;
+  padding: 8px 31px 8px 8px;
+  border-radius: 10px;
+  border: 1px solid #e6ecf0;
+  line-height: 20px;
+}
+input[type=text]:focus {
+  box-shadow: none;
+  border: 1px solid #1da1f2;
+  outline-width: 0;
+}
+.tweet-submit {
+  color: #1da1f2;
+  float: right;
+  margin: 10px 0;
+}
+
+/*
+  ========================================
   Main Navigation
   ========================================
 */

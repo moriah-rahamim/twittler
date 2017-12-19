@@ -4,6 +4,7 @@
     <script src="moment.min.js"></script>
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
+    <script src="https://use.fontawesome.com/882f9b3b46.js"></script>
     <link rel="stylesheet" href="styles.css">
     <title>Twittler</title>
   </head>
@@ -22,12 +23,14 @@
           <span class="home-text">Home</span>
         </a>
 
-        
-
       </nav>
     </header>
 
     <section class="stream">
+      <div class="row post-tweet">
+        <input type="text" class="new-message" name="message" placeholder="What's happening?"></input>
+        <a href="#"><i class="fa fa-paper-plane tweet-submit" aria-hidden="true"></i></a>
+      </div>
       <a class="row refresh-tweets hidden">See New Tweets</a>
 
       <div class="tweets"></div>
@@ -174,7 +177,12 @@
           switchToStream('Home');
         });
 
-        postTweet('my own message');
+        $('.tweet-submit').on('click', function (){
+          var input = $('.new-message');
+          postTweet(input.val());
+          input.val('');
+        })
+
       });
 
     </script>
