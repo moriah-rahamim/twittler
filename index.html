@@ -7,7 +7,24 @@
     <title>Twittler</title>
   </head>
   <body>
-    <div class="main-col">
+
+    <header class="main-nav">
+      <nav class="main-nav">
+
+        <div class="home-buttons">
+          <a href="#">
+            <span class="helper"></span>
+            <img class="home-icon" src="assets/home.png">
+            <span class="home-text">Home</span>
+          </a>
+        </div>
+
+        <h1 class="current-view" data-stream="home">Home</h1>
+
+      </nav>
+    </header>
+
+    <div class="stream">
       <a class="row refresh-tweets hidden">See New Tweets</a>
 
       <!-- Some fake data for testing CSS -->
@@ -126,6 +143,11 @@
             var $newTweets = $('a.refresh-tweets');
             $newTweets.removeClass('hidden');
           }
+        };
+
+        var clearTweets = function() {
+          $('.tweets').html('');
+          index = 0;
         };
 
         // **************************
