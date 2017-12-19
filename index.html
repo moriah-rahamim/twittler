@@ -40,6 +40,15 @@
         //   Helpers
         // **************************
 
+        var postTweet = function(message) {
+          var tweet = {};
+          tweet.user = 'memyselfandi';
+          tweet.message = message;
+          tweet.created_at = new Date();
+          addTweet(tweet);
+          addNewTweets();
+        };
+
         // Create a tweet jQuery object and return it
         var makeTweet = function(tweet) {
           var username = tweet.user;
@@ -146,6 +155,8 @@
         // **************************
         var $tweets = $('.tweets');
         var index = 0;
+        streams.users.memyselfandi = [];
+        users.push('memyselfandi');
         addNewTweets();
         // Check for new tweets every 5 seconds
         setInterval (checkForNewTweets, 5000);
@@ -163,6 +174,7 @@
           switchToStream('Home');
         });
 
+        postTweet('my own message');
       });
 
     </script>
