@@ -53,7 +53,7 @@
 
         // Create a tweet jQuery object and return it
         var makeTweet = function(tweet) {
-          var username = '@' + tweet.user;
+          var username = tweet.user;
           var timestamp = makeTimestamp(tweet.created_at);
           var message = tweet.message;
 
@@ -69,9 +69,11 @@
           $content.addClass('content');
           $tweet.append($content);
 
-          var $username = $('<span></span>');
+          var $username = $('<a></a>');
           $username.addClass('username');
-          $username.text(username);
+          $username.data('user', username);
+          $username.attr('href', '#');
+          $username.text('@' + username);
           $content.append($username);
 
           var $timestamp = $('<span></span>');
