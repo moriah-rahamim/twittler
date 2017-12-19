@@ -3,22 +3,140 @@
   <head>
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <title>Twittler</title>
   </head>
   <body>
+    <div class="main-col">
+      <a class="row refresh-tweets hidden">See New Tweets</a>
+
+      <!-- Some fake data for testing CSS -->
+      <div class="tweets">
+
+        <div class="row tweet">
+          <div class="avatar"></div>
+          <div class="content">
+            <span class="username">@shawndrost</span>
+            <span class="timestamp"> - 3h</span>
+            <div>
+              that wizard debugged an entire pony #yolo
+            </div>
+            <div class="share-icons">
+            </div>
+          </div>
+        </div>
+
+        <div class="row tweet">
+          <div class="avatar"></div>
+          <div class="content">
+            <span class="username">@douglascalhoun</span>
+            <span class="timestamp"> - 3h</span>
+            <div>
+              efficiently experienced the big bad decision #ballin
+            </div>
+            <div class="share-icons">
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
     <script>
 
       $(document).ready(function(){
-        var $body = $('body');
-        $body.html('');
 
-        var index = streams.home.length - 1;
-        while(index >= 0){
-          var tweet = streams.home[index];
+        // console.log(streams.home);
+        // console.log(streams.users);
+        // console.log(users);
+
+        // **************************
+        //   Helpers
+        // **************************
+
+        // Turn a created_at datetime object into a hh:mm timestamp
+        var makeTimestamp = function(created_at) {
+          var hrs = created_at.getHours();
+          var mins = created_at.getMinutes();
+          if (mins < 10) mins = '0' + mins;
+          return ' - ' + hrs + ':' + mins;
+        };
+
+        // Create a tweet jQuery object and return it
+        var makeTweet = function(tweet) {
+          var username = '@' + tweet.user;
+          var timestamp = makeTimestamp(tweet.created_at);
+          var message = tweet.message;
+
           var $tweet = $('<div></div>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message);
-          $tweet.appendTo($body);
-          index -= 1;
-        }
+          $tweet.addClass('row tweet');
+
+          var $avatar = $('<div></div>');
+          $avatar.addClass('avatar');
+          $tweet.append($avatar);
+
+          var $content = $('<div></div>');
+          $content.addClass('content');
+          $tweet.append($content);
+
+          var $username = $('<span></span>');
+          $username.addClass('username');
+          $username.text(username);
+          $content.append($username);
+
+          var $timestamp = $('<span></span>');
+          $timestamp.addClass('timestamp');
+          $timestamp.text(timestamp);
+          $content.append($timestamp);
+
+          var $message = $('<div></div>');
+          $message.text(message);
+          $content.append($message);
+
+          return $tweet;
+        };
+        
+        // Pull all un-loaded tweets and put them in the DOM
+        var addNewTweets = function() {
+          while (index < streams.home.length) {
+
+          var tweet = streams.home[index];
+          var $tweet = makeTweet(tweet);
+          $tweet.prependTo($tweets);
+
+          index ++;
+          }
+
+          // Remove (*) from title
+          $('title').text('Twittler');
+
+          // Remove "See New Tweets" row from top of page
+          var $newTweets = $('a.refresh-tweets');
+          $newTweets.addClass('hidden');
+        };
+
+        // Check if there are new un-loaded tweets
+        // If yes, add (*) to the title and show the "see new tweets" button
+        var checkForNewTweets = function() {
+          if(index < streams.home.length) {
+            // Add (*) to title to indicate new tweets
+            $('title').text('(*) Twittler');
+
+            // Add "See New Tweets" row to top of page
+            var $newTweets = $('a.refresh-tweets');
+            $newTweets.removeClass('hidden');
+          }
+        };
+
+        // **************************
+        //   Do when DOM is ready
+        // **************************
+        var $tweets = $('.tweets');
+        var index = 0;
+        addNewTweets();
+        // Check for new tweets every 5 seconds
+        setInterval (checkForNewTweets, 5000);
+        // Refresh the tweets when user clicks "See New Tweets"
+        $('.refresh-tweets').on('click', addNewTweets);
 
       });
 
