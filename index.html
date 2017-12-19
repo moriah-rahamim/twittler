@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <script src="moment.min.js"></script>
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
     <link rel="stylesheet" href="styles.css">
@@ -39,18 +40,10 @@
         //   Helpers
         // **************************
 
-        // Turn a created_at datetime object into a hh:mm timestamp
-        var makeTimestamp = function(created_at) {
-          var hrs = created_at.getHours();
-          var mins = created_at.getMinutes();
-          if (mins < 10) mins = '0' + mins;
-          return ' - ' + hrs + ':' + mins;
-        };
-
         // Create a tweet jQuery object and return it
         var makeTweet = function(tweet) {
           var username = tweet.user;
-          var timestamp = makeTimestamp(tweet.created_at);
+          var timestamp = " - " + moment(tweet.created_at).fromNow();
           var message = tweet.message;
 
           var $tweet = $('<div></div>');
