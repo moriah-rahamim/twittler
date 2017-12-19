@@ -11,17 +11,17 @@
     <header class="main-nav">
       <nav class="main-nav">
 
-        <div class="home-buttons">
-          <a href="#">
-            <span class="helper"></span>
-            <img class="home-icon" src="assets/home.png">
-            <span class="home-text">Home</span>
-          </a>
-        </div>
-
         <h1 class="current-view" data-stream="home">
           Home
         </h1>
+
+        <a class="home-buttons" href="#">
+          <span class="helper"></span>
+          <img class="home-icon" src="assets/home.png">
+          <span class="home-text">Home</span>
+        </a>
+
+        
 
       </nav>
     </header>
@@ -34,10 +34,6 @@
     <script>
 
       $(document).ready(function(){
-
-        console.log(streams.home);
-        console.log(streams.users);
-        console.log(users);
 
         // **************************
         //   Helpers
@@ -87,12 +83,23 @@
 
           return $tweet;
         };
+
+        var getStream = function() {
+          var streamName = $('.current-view').data('stream');
+          if (streamName === 'home') {
+            return streams.home;
+          } else {
+            return streams.users[streamName];
+          }
+        };
         
         // Pull all un-loaded tweets and put them in the DOM
         var addNewTweets = function() {
-          while (index < streams.home.length) {
+          var stream = getStream();
 
-          var tweet = streams.home[index];
+          while (index < stream.length) {
+
+          var tweet = stream[index];
           var $tweet = makeTweet(tweet);
           $tweet.prependTo($tweets);
 
@@ -110,7 +117,9 @@
         // Check if there are new un-loaded tweets
         // If yes, add (*) to the title and show the "see new tweets" button
         var checkForNewTweets = function() {
-          if(index < streams.home.length) {
+          var stream = getStream();
+
+          if(index < stream.length) {
             // Add (*) to title to indicate new tweets
             $('title').text('(*) Twittler');
 
@@ -122,8 +131,22 @@
 
         var clearTweets = function() {
           $('.tweets').html('');
+          $('a.refresh-tweets').addClass('hidden');
           index = 0;
         };
+
+        var switchToStream = function(stream) {
+          clearTweets();
+          $('.current-view').data('stream', stream.toLowerCase());
+          var streamName;
+          if(stream !== 'Home') {
+            streamName = '@' + stream;
+          } else {
+            streamName = stream;
+          }
+          $('.current-view').text(streamName);
+          addNewTweets();
+        }
 
         // **************************
         //   Do when DOM is ready
@@ -135,6 +158,17 @@
         setInterval (checkForNewTweets, 5000);
         // Refresh the tweets when user clicks "See New Tweets"
         $('.refresh-tweets').on('click', addNewTweets);
+
+        // Switch to user timeline after clicking a username
+        $('.tweets').on('click', '.username', function() {
+          var username = $(this).data('user');
+          switchToStream(username);
+        });
+
+        // Switch to full timeline after clicking Home
+        $('.home-buttons').on('click', function() {
+          switchToStream('Home');
+        });
 
       });
 

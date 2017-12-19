@@ -181,8 +181,9 @@ nav.main-nav {
   vertical-align: middle;
 }
 .home-buttons {
-  float: left;
-  height: 100%;
+  position: fixed;
+  z-index: 2;
+  margin-top: 5px;
 }
 .home-icon,
 .home-text {
