@@ -14,7 +14,7 @@
       <div class="tweets">
 
         <div class="row tweet">
-          <div class="avatar"></div>
+          <img class="avatar" src="assets/avatar.png"></img>
           <div class="content">
             <span class="username">@shawndrost</span>
             <span class="timestamp"> - 3h</span>
@@ -27,7 +27,7 @@
         </div>
 
         <div class="row tweet">
-          <div class="avatar"></div>
+          <img class="avatar" src="assets/avatar.png"></img>
           <div class="content">
             <span class="username">@douglascalhoun</span>
             <span class="timestamp"> - 3h</span>
@@ -45,9 +45,9 @@
 
       $(document).ready(function(){
 
-        // console.log(streams.home);
-        // console.log(streams.users);
-        // console.log(users);
+        console.log(streams.home);
+        console.log(streams.users);
+        console.log(users);
 
         // **************************
         //   Helpers
@@ -70,8 +70,9 @@
           var $tweet = $('<div></div>');
           $tweet.addClass('row tweet');
 
-          var $avatar = $('<div></div>');
+          var $avatar = $('<img></img>');
           $avatar.addClass('avatar');
+          $avatar.attr('src', 'assets/avatar.png');
           $tweet.append($avatar);
 
           var $content = $('<div></div>');
